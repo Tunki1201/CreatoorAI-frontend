@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import BlueRightImage from '@/public/assets/images/about/blue-right-neon-line.svg'
 import BlueLeftImage from '@/public/assets/images/about/blue-left-neon-line.svg'
 import GreenRightImage from '@/public/assets/images/about/green-right-neon-line.svg'
@@ -53,6 +53,12 @@ const MarqueeSection: React.FC = () => {
             rotate: 0,
         },
     ];
+
+    const [isShowCTA, setIsShowCTA] = useState(false)
+
+    const handleCTAbutton = () => {
+        setIsShowCTA(true)
+    }
 
     return (
         <section className="content-visibility-auto text-neutral-dark mt-24 relative flex w-full   lg:w-[90%] justify-center items-center mx-auto">
@@ -111,29 +117,41 @@ const MarqueeSection: React.FC = () => {
                 <p className="text-center w-[95%] mx-auto text-balance ">
                     Try Creatoor AI free today, enter simple prompts and create an endless amount of high quality videos with AI twins.
                 </p>
-                <div className="w-fit mx-auto lg:mx-0 cursor-pointer">
-                    <Link href="/login" className="flex cursor-pointer">
-                        <span
-                            style={{
-                                borderRadius: '9999px', // full round
-                                border: '1px solid #4bde81',
-                                padding: '0.25rem', // equivalent to p-1
-                                cursor: 'pointer',
-                                transition: 'box-shadow 0.3s ease-in-out',
-                                background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
-                                boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
-                            }}
-                            // Applying hover styles using mouse events
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                            }}
-                        >
-                            Clone Me Now
-                        </span>
-                    </Link>
+                <div className="w-full mx-auto lg:mx-0 cursor-pointer flex items-center justify-center pt-2">
+                    {
+                        !isShowCTA ? <button className="flex cursor-pointer">
+                            <span
+                                style={{
+                                    borderRadius: '9999px', // full round
+                                    border: '1px solid #4bde81',
+                                    padding: '0.25rem', // equivalent to p-1
+                                    cursor: 'pointer',
+                                    transition: 'box-shadow 0.3s ease-in-out',
+                                    background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
+                                    boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
+                                }}
+                                // Applying hover styles using mouse events
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                }}
+                                onClick={handleCTAbutton}
+                            >
+                                Get Early Access
+                            </span>
+                        </button> :
+                            <iframe src="https://embeds.beehiiv.com/ed0d8974-c9e8-45ae-b68b-69718811ee56?slim=true"
+                                data-test-id="beehiiv-embed"
+                                className='w-[80%]'
+                                height="52"
+                                frameBorder="0"
+                                scrolling="no"
+                                style={{ margin: 0, backgroundColor: 'transparent' }}>
+                            </iframe>
+                    }
+
                 </div>
             </div>
             {/* Right Marquee */}

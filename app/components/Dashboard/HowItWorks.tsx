@@ -1,13 +1,18 @@
 'use client'
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import TTVSearhImage from '@/public/assets/images/about/1.jpg'
 import TTVScriptImage from '@/public/assets/images/about/2.jpg'
 import TTVEditorImage from '@/public/assets/images/about/3.jpg'
 import LogoImage from '@/public/logo/Creator.svg';
-import Link from "next/link";
 
 const HowItWorks = () => {
+
+    const [isShowCTA, setIsShowCTA] = useState(false)
+
+    const handleCTAbutton = () => {
+        setIsShowCTA(true)
+    }
 
     return (
         <section id="how-it-works" className="content-visibility-auto scroll-m-20 w-full   mt-24 space-y-8">
@@ -208,29 +213,41 @@ const HowItWorks = () => {
                     src={LogoImage}
                 />
                 <p className="text-neutral-dark text-gray-300 mb-2" style={{ fontSize: '18px' }}>Clone yourself. Create viral videos.</p>
-                <div className="w-fit mx-auto lg:mx-0 cursor-pointer">
-                    <Link href="/login" className="flex cursor-pointer">
-                        <span
-                            style={{
-                                borderRadius: '9999px', // full round
-                                border: '1px solid #4bde81',
-                                padding: '0.25rem', // equivalent to p-1
-                                cursor: 'pointer',
-                                transition: 'box-shadow 0.3s ease-in-out',
-                                background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
-                                boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
-                            }}
-                            // Applying hover styles using mouse events
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                            }}
-                        >
-                            Clone Me Now
-                        </span>
-                    </Link>
+                <div className="w-full mx-auto lg:mx-0 cursor-pointer flex items-center justify-center pt-2">
+                    {
+                        !isShowCTA ? <button className="flex cursor-pointer">
+                            <span
+                                style={{
+                                    borderRadius: '9999px', // full round
+                                    border: '1px solid #4bde81',
+                                    padding: '0.25rem', // equivalent to p-1
+                                    cursor: 'pointer',
+                                    transition: 'box-shadow 0.3s ease-in-out',
+                                    background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
+                                    boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
+                                }}
+                                // Applying hover styles using mouse events
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                }}
+                                onClick={handleCTAbutton}
+                            >
+                                Get Early Access
+                            </span>
+                        </button> :
+                            <iframe src="https://embeds.beehiiv.com/ed0d8974-c9e8-45ae-b68b-69718811ee56?slim=true"
+                                data-test-id="beehiiv-embed"
+                                className='w-[30%]'
+                                height="52"
+                                frameBorder="0"
+                                scrolling="no"
+                                style={{ margin: 0, backgroundColor: 'transparent' }}>
+                            </iframe>
+                    }
+
                 </div>
             </div>
 

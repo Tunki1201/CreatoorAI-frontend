@@ -25,8 +25,8 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="flex flex-col-reverse md:flex-row justify-between">
                     <p className="text-neutral-dark mt-4 md:mt-0">
-                        Maintained with 💚 by
-                        <a className="underline ml-1" target="_blank" rel="noopener noreferrer" href="https://x.com/Olumide_gbenro">Olumide</a>
+                        Created  💚 by
+                        <a className="underline ml-1" target="_blank" rel="noopener noreferrer" href="http://leonardolaboratories.com/">Leonardo Labs</a>
                     </p>
                     <div className="text-[#BEFFD6] underline underline-offset-2 space-x-3 ml-1">
                         <a className="text-[#feffff] font-semibold text-base" href='/product'>Product</a>

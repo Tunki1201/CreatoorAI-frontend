@@ -393,7 +393,7 @@ export default function ToolsSection() {
                         href="/tools/create-short-video-clip"
                         style={{ background: 'radial-gradient(89.39% 89.39% at 50% 50%,rgba(16,18,21,.1) 0,hsla(0,0%,100%,.15) 100%)', transition: 'all .15s ease-in-out' }}
                     >
-                        Clone Me Now
+                        Get Early Access
                         <svg
                             width="16"
                             height="17"

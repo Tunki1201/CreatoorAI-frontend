@@ -1,13 +1,18 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import LogoImage from '@/public/logo/Creator.svg';
 import CloneYourSelfImage from '@/public/assets/images/about/Clone.jpg'
 import CustomVideoStyleImage from '@/public/assets/images/about/VideoStyle.jpg'
 import HDDownloadsImage from '@/public/assets/images/about/HDDownloads.jpg'
 
 const ExpectComponent = () => {
+
+    const [isShowCTA, setIsShowCTA] = useState(false)
+
+    const handleCTAbutton = () => {
+        setIsShowCTA(true)
+    }
 
     return (
         <div className="content-visibility-auto text-neutral-dark rounded-lg px-4 sm:px-6 md:px-8 border border-[#252629] w-full   bg-[#5169e4] mt-24">
@@ -158,35 +163,45 @@ const ExpectComponent = () => {
                     <p className="text-neutral-dark text-gray-300 text-center w-1/2 mb-3">
                         Create videos for social media with simple text prompts. Generate viral-worthy short form videos in minutes with no editing skills required.
                     </p>
-                    <div className="w-fit mx-auto lg:mx-0 cursor-pointer">
-                        <Link href="/login" className="flex cursor-pointer">
-                            <span
-                                style={{
-                                    borderRadius: '9999px', // full round
-                                    border: '1px solid #4bde81',
-                                    padding: '0.25rem', // equivalent to p-1
-                                    cursor: 'pointer',
-                                    transition: 'box-shadow 0.3s ease-in-out',
-                                    background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
-                                    boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
-                                }}
-                                // Applying hover styles using mouse events
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
-                                }}
-                            >
-                                Clone Me Now
-                            </span>
-                        </Link>
+                    <div className="w-full mx-auto lg:mx-0 cursor-pointer flex items-center justify-center pt-2">
+                        {
+                            !isShowCTA ? <button className="flex cursor-pointer">
+                                <span
+                                    style={{
+                                        borderRadius: '9999px', // full round
+                                        border: '1px solid #4bde81',
+                                        padding: '0.25rem', // equivalent to p-1
+                                        cursor: 'pointer',
+                                        transition: 'box-shadow 0.3s ease-in-out',
+                                        background: 'linear-gradient(180deg, #a8ffc8, #4bde81)',
+                                        boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81',
+                                    }}
+                                    // Applying hover styles using mouse events
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.boxShadow = '0 4px 16px rgba(75, 222, 129, 0.7), 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.boxShadow = '0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 0 1px #4bde81';
+                                    }}
+                                    onClick={handleCTAbutton}
+                                >
+                                    Get Early Access
+                                </span>
+                            </button> :
+                                <iframe src="https://embeds.beehiiv.com/ed0d8974-c9e8-45ae-b68b-69718811ee56?slim=true"
+                                    data-test-id="beehiiv-embed"
+                                    className='w-[30%]'
+                                    height="52"
+                                    frameBorder="0"
+                                    scrolling="no"
+                                    style={{ margin: 0, backgroundColor: 'transparent' }}>
+                                </iframe>
+                        }
+
                     </div>
                 </div>
             </div>
-
         </div>
-
     )
 }
 
