@@ -1,7 +1,7 @@
 export default async function SubmitPrompt(prompt: string) {
   try {
     const formattedPrompt = `
-      Avoid using brackets/square brackets and special characters in your answers. Don't go beyond 512 characters.
+      Avoid using brackets/square brackets and special characters in your answers. Limit only to 500 letters/characters.
        ${prompt}
       Create video scripts that will be 90 seconds or less in the style of Cleo Abram. Use the transcripts in the project knowledge to determine the consistent formula behind the video scripts, then use the details about the video idea inside of the prompt to create a video about the details in the prompt in the style of the Cleo Abrams videos, following a very similar formula.
       Use the Viral Hooks Master List  as inspiration by using the one that makes the most sense for the context and to formulate the most appropriate irresistible hook that fits the context of the script. Begin with an attention-grabbing opening that introduces the topic in an intriguing way. Ensure this is a unique content idea - either first to market with a common idea or an uncommon idea.
