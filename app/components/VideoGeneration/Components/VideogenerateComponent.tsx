@@ -1,61 +1,44 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import ArrowImage from "@/public/icon/arrow.png";
 import GeneratedScript from "./GeneratedScript";
 import LoadingSpinner from "./utils/Spinner";
+import useVideoStore from "@/app/store/videoStore";
 
 const VideoGenerationComponent = () => {
   const finalPromptRef = useRef<HTMLDivElement | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [videoUrl, setVideoUrl] = useState(null);
-  const [error, setError] = useState(null);
-
-  const handleVideoGen = () => {
-    if (finalPromptRef.current) {
-      console.log(finalPromptRef.current.textContent);
-    } else {
-      console.warn("finalPromptRef is not attached to any element.");
-    }
-  };
+  const { setVideoUrl, setLoading, setError, loading } = useVideoStore();
 
   const generateVideo = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Get the prompt text from the ref and handle null case
       let promptText = finalPromptRef.current
-      ? finalPromptRef.current.textContent!
-      : "";  // Use ! to assert it's not null
+        ? finalPromptRef.current.textContent!
+        : "";
+      promptText = promptText.replace(/^[\[\{( \n\r]*|[\]\}) \n\r]*$/g, "");
 
-  // Remove brackets, special characters, and newline characters at the start and end of the string
-  promptText = promptText.replace(/^[\[\{( \n\r]*|[\]\}) \n\r]*$/g, '');
-
-  console.log(promptText);
-
-  const res = await fetch("/api/generateVideo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-          promptImage: "https://static.vecteezy.com/system/resources/thumbnails/013/078/569/small/illustration-of-cute-colored-cat-cartoon-cat-image-in-format-suitable-for-children-s-book-design-elements-introduction-of-cats-to-children-books-or-posters-about-animal-free-png.png",
+      const res = await fetch("/api/generateVideo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          promptImage:
+            "https://static.vecteezy.com/system/resources/thumbnails/013/078/569/small/illustration-of-cute-colored-cat-cartoon-cat-image-in-format-suitable-for-children-s-book-design-elements-introduction-of-cats-to-children-books-or-posters-about-animal-free-png.png",
           promptText: promptText,
-      }),
+        }),
       });
 
       const data = await res.json();
-
       if (res.ok) {
-        // Assuming the API returns the output URL in the format you mentioned
-        setVideoUrl(data.outputUrl); // Use outputUrl instead of videoUrl
-        console.log("Response OK");
+        setVideoUrl(data.outputUrl);
       } else {
         setError(data.error || "Video generation failed.");
-        console.log("Error:", data.error);
       }
     } catch (err) {
-      console.error("Fetch Error:", err);
-      setError(error); // Changed error to err.message
+      setError("An error occurred. Please try again.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -76,19 +59,7 @@ const VideoGenerationComponent = () => {
 
       <div className="w-full h-[1px] bg-[#E1E8EC] mt-4 mb-4" />
 
-      <div>
-        <h1>
-          {loading ? "Generating..." : "Generate Video"}
-        </h1>
 
-        {videoUrl && (
-          <div>
-            <video src={videoUrl} controls width="600" />
-          </div>
-        )}
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </div>
 
       <button
         onClick={generateVideo}
