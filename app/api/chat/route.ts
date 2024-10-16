@@ -1,58 +1,45 @@
-import { NextResponse } from "next/server";
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(request: Request) {
-  if (!openai.apiKey) {
-    return NextResponse.json(
-      {
-        status: 500,
-        error: "OpenAI API key not configured, please follow instructions in README.md",
-      },
-      { status: 500 }
-    );
+  const anthropic = new Anthropic({
+    apiKey: process.env.CLAUDE_API_KEY
+  });
+
+  const { messages } = await request.json(); // Get the messages from the request body
+  if (!messages || messages.length === 0) {
+    return new Response("Missing messages in request body", { status: 400 });
   }
 
-  const data = await request.json();
+  const prompt = "Create a video script of 90 seconds or less in the style of Cleo Abram, utilizing project knowledge to identify the consistent formula behind her scripts and incorporating the video idea details in the promptt; draw inspiration from the Viral Hooks Master List to craft an irresistible hook, starting with an attention-grabbing opening that uniquely introduces the topic; explain key points of the news or development with context from the article, appealing to a broad audience and emphasizing that the trend affects more than one company, supported by a relevant example; present a balanced view that highlights opportunities while introducing a unique point of view or story lens; discuss potential future impacts or opportunities to provoke sharing by providing insights viewers may want to share for social credibility; ensure conclusions pose a question inviting viewer opinions in the comments to maximize engagement; write the entire script in full sentences without bullet points or headings, avoiding references to Cleo or annotations, presenting it as a cohesive piece of text. <example> Viral Hooks Master List: Here are 175 hooked structures with examples: 1. [NUMBER] things about [NICHE] I wish I knew earlier 2. Stop doing [RELATED TO NICHE] if you want to do [DESIRED RESULT] 3. The dark secret behind [RELATED TO NICHE] 4. This is why your [ACTION RELATED TO NICHE] isn't working 5. Struggling with [PAIN POINT OF TARGET AUDIENCE], here's a secret tip I wish I knew earlier 6. How to get [DESIRED RESULT] in [TIME] 7. Exposing my secret to [DESIRED RESULT] 8. Here's [NUMBER] underestimated [HACK/TIP/TRICK] to [DESIRED RESULT] 9. Steal my secret strategy on [DESIRED RESULT] 10. [TARGET AUDIENCE] will never admit these secrets 11. Are You Making This Common Mistake With [X]? 12. [X] Examples You Can Apply Immediately To Do [X] 13. The Step-By-Step Guide To [X] 14. How To [X] 15. Going through [X] and wanna cry? Here are [X] steps that can help 16. Did you know [X]? 17. If you're using [X] - ditch it right away 18. Wanna improve your [X]? 19. Who else wants [X]? 20. Why you're not getting [X] + how to fix it RIGHT AWAY 21. If you think that your [X] cares about [Y], think twice 22. Wanna know [X] Secret to [Y]? 23. You asked. Here's the answer. What's the difference between [X] and [Y]? 24. Alert! Game Changer For Your [X] 25. What if I told you [X]? 26. An often-overlooked part of [X]. And why it's crucial to [Y] 27. If you want [X] to do [Y], you've got to do [Z]. Here's how 28. Mind-Blowing Fact: [Write a shocking stat] 29. Do you feel frustrated because you squander money on [X] and don't see desired results? 30. Do you want [X], but can't figure out [Y]? 31. Doing [X] and really want [Y]? 32. The Top 10 Hacks To Improve [X] 33. Trying to do [X] while [Y]? 34. I'm answering the TOP question I get asked on LinkedIn: [Insert question] 35. How to turn [X] into [Y] 36. The only actual way to [X]? 37. The #1 mistake I see people make with [X] is [Y] 38. What do [X], [Y] & [Z] have in common? 39. BRUTALLY HONEST POST WARNING [Write something controversial] 40. [X] Hacks for [Y], even if [Z] 41. [X] Early Warning Signs: 42. [X] Secrets [Y] doesn't want you to know about 43. Why you always struggle to do [X] no matter how hard you try 44. Improve [X] with One Simple Technique 45. Do you think that [X]? 46. If you've been told that the ONLY WAY to get [X] is to do [Y], you've been SHAMMED 47. What to do with [X]? 48. [X] Ways I Increased My [Y] By [Z]% And So Can You 49. I average [X] and I only [Y] 50. [Insert something your target market really wants to know about] is the question that I often get asked 51. This [X] Year Old [Y] Trick Still Works 52. What makes a good [X]? 53. To make your [X] stand out, do the opposite of what most people do 54. If your [X] doesn't do [Y], you're doing it wrong 55. PRO TIP: How to make your [X] explode with one Simple Tactic 56. From starting [X] to getting [Y] 57. [X] Little-Known Steps to [Y] 58. Don't know how to do [X]? Here's an evergreen tip: 59. How to get better at [X]? Try the [Y] FRAMEWORK 60. Succeeding with [X] is simple. Just follow these tips 61. Not sure about [X]? Try this: 62. When [X], what happens to [Y]? 63. What happens just before [X]? 64. Are you missing these [X] in your [Y]? 65. How to overcome [X]? 66. The truth about [X] 67. What I wish I'd known about [X] at [Y] 68. My favourite [X]: 69. Good or bad, [X] impacts [Y] 70. [X] Stages of [Y] 71. Everybody knows [X]. What they don't know is [Y] 72. 5 small things with a BIG EFFECT on [X] 73. One of the best [X] Frameworks to use if you want [Y] 74. Thinking about starting [X]? Here are [X] things to consider before you start [Y] 75. [X]% of [Y] look like [Z] 76. How to MONETISE [X]? 77. If you haven't done [X], [Y] is a struggle 78. [audience] will never [desired result] 79. [X] are dead 80. Everything you knew about [subject] is WRONG 81. No one has told you this yet but... 82. Are you tired of [X]? Discover the secret behind [Y] 83. Ever wondered how [X] generates [Y]? 84. Here's a hidden blueprint to [X] 85. Here's an [X] secret nobody seems to know about 86. The [Number] secrets to [desired result] 87. The biggest secret about [X] no one has told you 88. This one mistake could be costing you [($)] 89. The easiest way for you to... 90. Give me 30 seconds and I'll show you how to... 91. Here are 4 ways to [X] 92. The best advice on [niche] I've ever heard... 93. Why is nobody talking about this... 94. I've got a secret... 95. Tired of [X]? Try this instead... 96. 99% of people don't... 97. I bet you didn't know... 98. This might shock you... 99. Stop scrolling... 100. Here's a hack most people don't know... 101. Don't hate me but... 102. People pay thousands for this secret... 103. How I brainwashed myself into... 104. Stop making this huge [Industry] mistake... 105. Handle Every [X] Obstacle Using These Tips 106. Mistakes In [X] That Make You Look Stupid 107. How To Learn [X] in 5 Minutes 108. 5 Brilliant Ways To Teach Customers About [X] 109. 3 Ways To Master [X] Without Breaking A Sweat 110. How We Improved Our [X] by [Y]% In One Week 111. Want A Thriving Business? Focus On [X]! 112. [X]: The Biggest Mistakes 113. Wondering How To Make Your [X] Rock? Read This! 114. How To Deal With Very Bad [X] 115. Where Is The Best [X]? 116. Why You Never See [X] That Actually Works 117. The Ultimate Guide To [X] 118. Nobody Enjoys [X]. How About You? 119. How To Sell [X] in 3 Steps 120. [X] Strategies of The Pros 121. Can You Pass This [X] Test? 122. Ridiculous Rules About [X] You NEED to Follow 123. 5 Simple Steps To An Effective [X] Strategy 124. Get Better at [X] in 3 Simple Steps 125. Learn Exactly How I Improved [X] In 2 Hours 126. The Death Of [X]. Are You Ready? 127. There's Big Money In [X]. Learn How to make it! 128. Clear And Unbiased Facts About [X] (No BS) 129. What Zombies Can Teach You About [X] 130. [X] Secrets You Never Knew 131. The Top Secrets of [X] 132. The Secret of Successful [X] 133. Don't Just Sit There! Start [X] 134. The Tony Robbins Guide To [X] 135. Mysteries of [X] Revealed 136. The Truth Is You Are Not The Only Person Who Sucks at [X] 137. Fall In Love With These [X] Tips 138. The Most Irresistible [X] 139. How You Can Do [X] In 24 Hours For Free 140. 4 Best Ways To Sell [X] 141. Want [X]? [Y] Will Help You Get There 142. The Jaw-Dropping Truth About [X] In 3 Minutes 143. Some People Excel At [X] And Some Don't -- Learn Why 144. Could This Report Be The Definitive Answer To Your [X]? 145. 7 Things You Have In Common With [X] 146. If you like [insert commonly used thing], then you'll love [insert your product, service, or freebie]. 147. Top 3 Reasons why you should [X] | 148. Steal influence by calling out someone popular in your niche | 149. Here are the 5 best [X] for your next [insert niche activity] | 150. Steal this strategy | 151. Your X isn’t (ugly, lame, etc.), you just need X | 152. Hot (girls, photographers, etc.) don’t gatekeep | 153. X I’ve done but it casually gets (worse, more expensive, etc.) | 154. I don’t know how this isn’t trending right now, but X | 155. If you want to be (cooler, skinnier, funnier, etc.) you have to X | 156. POV: you X | 157. X things I wish I would have known sooner, but I didn’t, so I am sharing them with you | 158. Reasons why you should X | 159. I would crazy situation (give my left kidney, do illegal stuff) for X | 160. Here is the exact X you need to know as an X | 161. Let’s talk about the # things that will save you from X | 162. If crazy situation (I was on death row, my house was burning down) I would X | 163. Have you ever felt like X? | 164. If you like X, you will love X | 165. If you have ever struggled with X, do X | 166. I don’t know about you, but I hate X | 167. The truth about X | 168. Put a finger down if X | 169. This is your sign to X | 170. Even though everyone on your fyp is telling you something different, here’s the truth | 171. Is there anything worse than X? | 172. I need your help to X | 173. I can’t believe I just (learned/noticed) this | 174. If you’re under (# of age) and you’re not X, listen up! | 175. Stop doing X.</example>";
 
-  const prompt = data.prompt;
-
-  if (!prompt) {
-    return NextResponse.json(
-      {
-        error: "Invalid input! Expected 'prompt' string.",
-      },
-      { status: 400 }
-    );
-  }
+  // Prepare the user message from the received data
+  const userMessage = messages[0].content;
 
   try {
-    const completionResponse = await openai.completions.create({
-      model: "gpt-3.5-turbo-instruct", 
-      prompt: prompt, 
-      max_tokens: 2048,
-      temperature: 0.8,
+    const msg = await anthropic.messages.create({
+      model: "claude-3-5-sonnet-20240620",
+      max_tokens: 2551,
+      temperature: 1,
+      system: prompt,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: `: ${userMessage}`,
+            },
+          ],
+        },
+      ],
     });
 
-    const responseText = completionResponse.choices[0].text?.trim();
+    // Type assertion here
+    const responseText = (msg.content[0] as { text: string }).text;
 
-    return NextResponse.json(
-      {
-        status: 200,
-        text: responseText,
-      },
-      { status: 200 }
-    );
+    return new Response(JSON.stringify(responseText), { status: 200 });
   } catch (error) {
-    console.error("Error from OpenAI API:", error);
-    return NextResponse.json(
-      {
-        error: "Failed to get a response from OpenAI.",
-      },
-      { status: 500 }
-    );
+    console.error("Error communicating with Anthropic API:", error);
+    return new Response("Failed to fetch response from Anthropic API", { status: 500 });
   }
 }
