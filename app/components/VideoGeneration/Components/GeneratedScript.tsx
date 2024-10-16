@@ -28,4 +28,6 @@ const GeneratedScript = forwardRef<HTMLDivElement, FinalPromptProps>((props, ref
   );
 });
 
+
+
 export default GeneratedScript;

@@ -21,9 +21,9 @@ const EnterPrompt = () => {
       console.log("requested");
   
       try {
-        const promptResult = await SubmitPrompt(promptInput);
+        const promptResult:any = await SubmitPrompt(promptInput);
         setLoading(false);
-        console.log(promptResult);
+        console.log("final res: " + promptResult);
   
         updateResult({ result: promptResult });
       } catch (error) {
