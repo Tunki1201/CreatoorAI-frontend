@@ -15,14 +15,14 @@ export default async function SubmitPrompt(message: string): Promise<string> {
     const data = await response.json();
 
     // Log the raw response data for debugging
-    console.log("Raw response data:", data);
+    // console.log("Raw response data:", data);
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}: ${data.error}`);
     }
     
     // Log the expected response
-    console.log("API response:", data.response);
+    // console.log("API response:", data.response);
     
     return data; 
     

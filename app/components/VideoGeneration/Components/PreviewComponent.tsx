@@ -12,7 +12,7 @@ const PreviewComponent = () => {
     <div className="w-full rounded-md border border-[#E1E8EC] p-2 flex flex-col bg-white">
       <span className="bg-[#F5F7FA] border rounded p-1 w-[85px] text-center">
         Preview
-      </span>
+      </span> 
 
       <div className="relative flex items-center justify-center mt-4 min-h-[450px]">
         {loading ? (

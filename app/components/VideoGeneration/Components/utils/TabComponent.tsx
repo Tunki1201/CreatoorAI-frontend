@@ -6,6 +6,7 @@ import Image from "next/image";
 import StarImage from "@/public/icon/star.png";
 import SubmitPrompt from "./SubmitPrompt";
 import { promptStore } from "@/app/store/prompt";
+import captionExtract from "./captionExtract";
 
 // EnterPrompt Component
 const EnterPrompt = () => {
@@ -22,6 +23,7 @@ const EnterPrompt = () => {
   
       try {
         const promptResult:any = await SubmitPrompt(promptInput);
+        // const extractResult = await captionExtract(promptInput);
         setLoading(false);
         console.log("final res: " + promptResult);
   

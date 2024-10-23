@@ -5,6 +5,7 @@ import ArrowImage from "@/public/icon/arrow.png";
 import GeneratedScript from "./GeneratedScript";
 import LoadingSpinner from "./utils/Spinner";
 import useVideoStore from "@/app/store/videoStore";
+import captionExtract from "./utils/captionExtract";
 
 const VideoGenerationComponent = () => {
   const finalPromptRef = useRef<HTMLDivElement | null>(null);
@@ -16,9 +17,19 @@ const VideoGenerationComponent = () => {
 
     try {
       let promptText = finalPromptRef.current
-        ? finalPromptRef.current.textContent!
-        : "";
+      ? finalPromptRef.current.textContent!
+      : "";
       promptText = promptText.replace(/^[\[\{( \n\r]*|[\]\}) \n\r]*$/g, "");
+      /* 1st: extract caption api */
+      
+      await captionExtract(promptText);
+
+
+      /* 2nd: b-roll generation api */
+
+
+
+      
 
       const res = await fetch("/api/generateVideo", {
         method: "POST",
@@ -42,6 +53,7 @@ const VideoGenerationComponent = () => {
     } finally {
       setLoading(false);
     }
+    
   };
 
   return (
