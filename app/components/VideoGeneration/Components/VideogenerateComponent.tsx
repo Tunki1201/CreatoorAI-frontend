@@ -6,6 +6,7 @@ import GeneratedScript from "./GeneratedScript";
 import LoadingSpinner from "./utils/Spinner";
 import useVideoStore from "@/app/store/videoStore";
 import captionExtract from "./utils/captionExtract";
+import ParseTopics from "./utils/ParseTopics";
 
 const VideoGenerationComponent = () => {
   const finalPromptRef = useRef<HTMLDivElement | null>(null);
@@ -22,7 +23,11 @@ const VideoGenerationComponent = () => {
       promptText = promptText.replace(/^[\[\{( \n\r]*|[\]\}) \n\r]*$/g, "");
       /* 1st: extract caption api */
       
-      await captionExtract(promptText);
+      const captionExtracted = await captionExtract(promptText);
+      console.log('Caption Exctracted: ' + captionExtracted)
+      const parsedTopics = ParseTopics(captionExtracted)
+      console.log(parsedTopics)
+
 
 
       /* 2nd: b-roll generation api */

@@ -22,7 +22,7 @@ export default async function captionExtract(message: string): Promise<string> {
       }
       
       // Log the expected response
-      console.log("Caption API Extract response:", data.response);
+      // console.log("Caption API Extract response:", data.response);
       
       return data; 
       
